@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from collections import Counter, deque
 
 # 1. Carregar modelo YOLO treinado
-model = YOLO('retraining/guitar_chords_ft/weights/best.pt')
+model = YOLO("retraining/guitar_chords_ft/weights/best.pt")
 
 # 2. Configuração para avaliar e melhorar a detecção
 class ChordDetector:
