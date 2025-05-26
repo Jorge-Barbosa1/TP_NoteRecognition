@@ -1,28 +1,25 @@
 from ultralytics import YOLO
 
 def main():
-    # === Caminho para o novo dataset e modelo pré-treinado ===
-    data_path = r"D:\TP_Modulo2\meu-dataset\data.yaml"  # Ajustado para o novo dataset
-    pretrained_model = r"D:\TP_Modulo2\retraining\guitar_chords_ft\weights\best.pt"  # Modelo treinado anteriormente
+    # Caminhos
+    data_path = r"D:\TP_Modulo2\meu-dataset\data.yaml"  # Substitui com o teu caminho real
+    pretrained_model = r"D:\TP_Modulo2\retraining\guitar_chords_ft\weights\best.pt"  # Modelo atual
     
-    # === Carregar modelo a partir do best.pt ===
+    # Carregar modelo existente
     model = YOLO(pretrained_model)
     
-    # === Fine-tuning com o novo dataset e parâmetros ajustados ===
+    # Treinar (fine-tune)
     model.train(
         data=data_path,
-        epochs=20,  # Reduzido para fine-tuning
+        epochs=50,
         imgsz=640,
-        batch=16,
-        patience=10,  # Reduzido para evitar overtraining
-        optimizer='Adam',
-        lr0=0.0005,  # Taxa de aprendizado reduzida para fine-tuning
-        lrf=0.01,
-        momentum=0.937,
-        weight_decay=0.0005,
-        warmup_epochs=1,  # Reduzido para fine-tuning
-        warmup_momentum=0.8,
-        warmup_bias_lr=0.1,
+        batch=8,  # Adapta conforme tua GPU (GTX 1650 Ti: usa 4 ou 8)
+        patience=10,
+        optimizer='AdamW',  # Melhor para fine-tuning com regularização
+        lr0=0.0005,
+        weight_decay=0.01,
+        momentum=0.937,  # Ainda usado internamente por algumas configs
+        warmup_epochs=1,
         box=7.5,
         cls=0.5,
         dfl=1.5,
@@ -32,11 +29,12 @@ def main():
         translate=0.1,
         scale=0.5,
         fliplr=0.5,
-        mosaic=1.0,
+        mosaic=0.7,  # Reduzido para fine-tuning (muito mix pode atrapalhar)
         mixup=0.0,
-        nbs=64,
+        val=True,         # Validação automática
+        plots=True,       # Gera gráficos
         project="retraining",
-        name="guitar_chords_personal", 
+        name="guitar_chords_finetuned",
         exist_ok=True
     )
 
