@@ -21,9 +21,7 @@ class ChordDetector:
         self.frame_count = 0
         
     def process_frame(self, frame):
-        # Aumentar o frame para maior resolução e mais detalhes pode ajudar
-        # frame = cv2.resize(frame, (640, 640))
-        
+       
         # Executar a detecção
         results = self.model(frame, conf=self.confidence_threshold)[0]
         

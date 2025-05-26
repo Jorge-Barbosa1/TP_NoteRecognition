@@ -2,8 +2,8 @@ from ultralytics import YOLO
 
 def main():
     # Caminhos
-    data_path = r"D:\TP_Modulo2\meu-dataset\data.yaml"  # Substitui com o teu caminho real
-    pretrained_model = r"D:\TP_Modulo2\retraining\guitar_chords_ft\weights\best.pt"  # Modelo atual
+    data_path = r"D:\TP_Modulo2\meu-dataset\data.yaml"  
+    pretrained_model = r"D:\TP_Modulo2\retraining\guitar_chords_ft\weights\best.pt"
     
     # Carregar modelo existente
     model = YOLO(pretrained_model)
@@ -29,7 +29,7 @@ def main():
         translate=0.1,
         scale=0.5,
         fliplr=0.5,
-        mosaic=0.7,  # Reduzido para fine-tuning (muito mix pode atrapalhar)
+        mosaic=0.7,  # Reduzido para fine-tuning 
         mixup=0.0,
         val=True,         # Validação automática
         plots=True,       # Gera gráficos
