@@ -11,7 +11,7 @@ model = YOLO("retraining/guitar_chords_finetuned/weights/best.pt")
 
 # 2. Configuração para avaliar e melhorar a detecção
 class ChordDetector:
-    def __init__(self, model, confidence_threshold=0.3):
+    def __init__(self, model, confidence_threshold=0.2):
         self.model = model
         self.confidence_threshold = confidence_threshold
         self.class_names = model.names
