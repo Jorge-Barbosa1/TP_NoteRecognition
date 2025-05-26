@@ -152,7 +152,7 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
     
     # Criar detector
-    detector = ChordDetector(model, confidence_threshold=0.4)
+    detector = ChordDetector(model, confidence_threshold=0.2)
     
     # Interface para ajustar threshold
     cv2.namedWindow('Detector de Acordes')
