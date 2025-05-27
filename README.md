@@ -17,20 +17,6 @@ To develop and train a YOLO model capable of identifying basic guitar chords (su
 
 ---
 
-## 📁 Project Structure
-
-```
-├── dataset/          # Final dataset (or link to Roboflow)
-├── weights/          # Trained models (best.pt)
-├── images/           # Results and analysis visuals
-├── detect.py         # Real-time detection script
-├── train.py          # YOLOv8 training/fine-tuning script
-├── results.csv       # Training metrics
-├── README.md
-```
-
----
-
 ## 🖼️ Sample Results
 
 - `results.png` – Training graphs (loss, mAP)
@@ -54,7 +40,7 @@ pip install ultralytics opencv-python numpy matplotlib
 ### 2. Run Real-Time Detection
 
 ```bash
-python detect.py
+python guitar_note_detector.py
 ```
 
 ---
@@ -86,6 +72,5 @@ Email: jorge.b@ipvc.pt
 
 ## 📚 References
 
-- Redmon et al. (2016). You Only Look Once (YOLO)
 - Ultralytics YOLOv8: https://docs.ultralytics.com
 - Roboflow: https://roboflow.com
