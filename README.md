@@ -1,76 +1,58 @@
-# 🎸 Guitar Chord Detection with YOLOv8
+# Guitar Chord Detection (YOLOv8)
 
-This project uses **computer vision** and **YOLOv8** to detect guitar chords in real time from webcam images. It was developed as part of the **Organizational Learning (Computer Vision)** course in the Bachelor's Degree in Computer Engineering – IPVC.
+> **Suggested repo description:** *Real-time guitar chord detection from webcam using a fine-tuned YOLOv8 model and a custom Roboflow dataset.*
+>
+> **Suggested topics:** `computer-vision`, `yolov8`, `ultralytics`, `opencv`, `roboflow`, `guitar`, `chord-recognition`, `real-time`
 
-## 📌 Objective
+Detect guitar chords (C, D, G, Am, …) from a webcam feed in real time. A YOLOv8 model is fine-tuned on a custom dataset annotated in Roboflow, and the inference loop draws bounding boxes over the player's hand with confidence-coloured feedback.
 
-To develop and train a YOLO model capable of identifying basic guitar chords (such as C, D, G, Am, etc.), with a focus on hands-on learning of machine learning tools rather than creating a final product.
+![demo](docs/demo.gif) <!-- add a short GIF of webcam detection before publishing -->
 
----
+## How it works
 
-## 🧠 What Was Done
+- **Detector** (`guitar_note_detector.py`) — opens the webcam with OpenCV, runs YOLOv8 inference per frame, filters detections below a confidence threshold (0.2 by default), and keeps a 5-frame rolling history (`deque(maxlen=5)`) to smooth predictions. Bounding-box colour goes red→green as confidence rises.
+- **Training** (`train_model.py`) — fine-tunes a previously trained YOLOv8 checkpoint with AdamW (`lr=5e-4`, weight decay 0.01), mosaic augmentation 0.7, mild HSV/translation/scale/flip augmentations, 50 epochs with `patience=10`. Outputs go to `retraining/guitar_chords_finetuned/`.
+- **Dataset** — built and exported from [Roboflow](https://roboflow.com/), with manual annotations of chord shapes.
 
-- Trained and fine-tuned YOLOv8 models using multiple datasets.
-- Created a custom dataset with manual annotations using Roboflow.
-- Evaluated performance metrics (mAP, precision, recall, confusion matrix).
-- Implemented real-time detection script using webcam and OpenCV.
-
----
-
-## 🖼️ Sample Results
-
-- `results.png` – Training graphs (loss, mAP)
-- `confusion_matrix.png` – Confusion matrix showing misclassifications
-- `labels.jpg` – Class distribution in the dataset
-
----
-
-## ⚙️ How to Run
-
-### 1. Requirements
-
-- Python 3.10+
-- [Ultralytics YOLO](https://github.com/ultralytics/ultralytics)
-- OpenCV, NumPy, Matplotlib
+## Run real-time detection
 
 ```bash
 pip install ultralytics opencv-python numpy matplotlib
-```
-
-### 2. Run Real-Time Detection
-
-```bash
 python guitar_note_detector.py
 ```
 
----
+Press `q` to quit.
 
-## 🔍 Issues Faced
+## Train your own model
 
-- Model often detected D chord regardless of the input — caused by dataset bias and lack of variation.
-- High rate of false positives between chords with visually similar finger positions.
-- Some classes had very few samples, which harmed model generalization.
+Edit the dataset path in `train_model.py`, then:
 
----
+```bash
+python train_model.py
+```
 
-## 🛠️ Future Work
+## What I learned
 
-- Increase and balance the number of images per chord.
-- Explore models with keypoint detection (e.g., YOLO-Pose, MediaPipe).
-- Add post-detection musical logic to validate predicted chords.
-- Build an interactive interface to practice and receive visual feedback on chords.
+- Honest dataset bias matters: the model originally over-predicted **D** because the early dataset had too many D samples. Re-balancing classes fixed most of the issue.
+- Visually similar finger positions (open chords with overlapping silhouettes) cause confusion that data alone doesn't resolve cleanly — keypoint or pose-based approaches are the natural next step.
+- Confidence thresholds are a UX knob, not just a metric: too low spams false positives, too high misses correct detections.
 
----
+## Limitations
 
-## 🙋‍♂️ Author
+- Open chords only (the current dataset doesn't cover barre chords).
+- Lighting and webcam angle have a strong effect; the model is most reliable in a setup similar to the training data.
+- The classifier sees the hand, not the strings — silent chord shapes register as positives.
 
-**Jorge Barbosa**  
-Bachelor's Degree in Computer Engineering – IPVC  
-Email: jorge.b@ipvc.pt
+## Future work
 
----
+- Larger and more balanced dataset across chords and lighting conditions.
+- Switch to a keypoint-detection approach (YOLO-Pose or MediaPipe) and validate chord shapes geometrically.
+- A small UI for live practice — show the target chord, score the detection.
 
-## 📚 References
+## Context
 
-- Ultralytics YOLOv8: https://docs.ultralytics.com
-- Roboflow: https://roboflow.com
+Computer Vision (Organizational Learning) coursework — Bachelor's Degree in Informatics Engineering, IPVC.
+
+## License
+
+MIT.
