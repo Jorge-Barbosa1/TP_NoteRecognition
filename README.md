@@ -1,9 +1,5 @@
 # Guitar Chord Detection (YOLOv8)
 
-> **Suggested repo description:** *Real-time guitar chord detection from webcam using a fine-tuned YOLOv8 model and a custom Roboflow dataset.*
->
-> **Suggested topics:** `computer-vision`, `yolov8`, `ultralytics`, `opencv`, `roboflow`, `guitar`, `chord-recognition`, `real-time`
-
 Detect guitar chords (C, D, G, Am, …) from a webcam feed in real time. A YOLOv8 model is fine-tuned on a custom dataset annotated in Roboflow, and the inference loop draws bounding boxes over the player's hand with confidence-coloured feedback.
 
 ![demo](docs/demo.gif) <!-- add a short GIF of webcam detection before publishing -->
